@@ -1,7 +1,7 @@
 import * as actionConstant from '../../Actions/ActionConstant/ActionConstant';
 
 const initialState = {
-  reUserData: [],
+  reImageData: [],
   isLoading: false,
   error: null,
 };
@@ -16,7 +16,7 @@ export const ImageReducer = (state = initialState, action) => {
     case actionConstant.IMAGES_DATA_SUCCESS:
       return {
         ...state,
-        reUserData: action.data ? action.data : null,
+        reImageData: [...state.reImageData, ...action.data],
         isLoading: false,
       };
     case actionConstant.IMAGES_DATA_ERROR:

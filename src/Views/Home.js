@@ -5,9 +5,7 @@ import HomeMob from "./HomeMob";
 
 class Home extends Component {
     state = {
-        images: [],
         imgId: 1,
-        totalPage: null,
         scrolling: false,
         visible: 30
     }
@@ -24,13 +22,12 @@ class Home extends Component {
     }
       
     updateWindowDimensions = () => {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
+        this.setState({ width: window.innerWidth });
     }
 
     handleScroll = (e) => {
-        const { scrolling, totalPage, imgId } = this.state;
+        const { scrolling } = this.state;
         if(scrolling) return
-        if(totalPage <= imgId) return
         const lastLI = document.querySelector(".w-20:last-child")
         const lastLiOffset = lastLI.offsetTop + lastLI.clientHeight;
         const pageOffset = window.pageYOffset + window.innerHeight;
@@ -39,19 +36,15 @@ class Home extends Component {
     }
 
     loadImages = () => {
-        const { imgId, images } = this.state;
-        const url = `https://picsum.photos/v2/list?page=${imgId}`
-        fetch(url)
-        .then(response => response.json())
-        .then(json => this.setState({
-            images: [...images ,...json],
-            scrolling: false,
-            totalPage: 100
-        }))
+        const { imgId } = this.state;
+        this.props.imagesActionData(imgId)
+        this.setState({
+            scrolling: false
+        })
     }
 
     loadMore = () => {
-        if(this.state.images.length > this.state.visible){
+        if(this.props.imageStateData.reImageData.length > this.state.visible){
             this.setState(prevState => ({
                 visible: prevState.visible + 10,
             }))
@@ -66,12 +59,11 @@ class Home extends Component {
     }
 
     render() {
-        console.log("fbcvbcvbv", this.props.imageStateData)
         return (
             <div>
                 {this.state.width >= 768 ?
                     <div className="row clr-margin">
-                        {this.state.images.slice(0, this.state.visible).map((img, index) => {
+                        {this.props.imageStateData.reImageData.slice(0, this.state.visible).map((img, index) => {
                             return (
                                 <div className="w-20 text-center" key={index} >
                                     <img src={img.download_url} style={{width: "250px", height: "250px"}} className="rounded img-thumbnail img-fluid" alt="" />
@@ -94,7 +86,7 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-        ImagesActionData: () => dispatch(actionCreator.ImagesAction()),
+        imagesActionData: () => dispatch(actionCreator.ImagesAction()),
     };
   };
   
