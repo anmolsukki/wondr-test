@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import loadable from 'loadable-components';
 import Loader from './Utils/Loader';
+import "./Assets/PortalTheme.css";
 
 const Loading = () => (
   <div>
