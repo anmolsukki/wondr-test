@@ -23,7 +23,7 @@ export const ImageReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.data ? action.data.message : null,
-        isLoading: false,
+        isLoading: true,
       };
     default:
   }

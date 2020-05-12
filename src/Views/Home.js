@@ -5,7 +5,7 @@ import HomeMob from "./HomeMob";
 
 class Home extends Component {
     state = {
-        imgId: 1,
+        page: 1,
         scrolling: false,
         visible: 30
     }
@@ -36,8 +36,8 @@ class Home extends Component {
     }
 
     loadImages = () => {
-        const { imgId } = this.state;
-        this.props.imagesActionData(imgId)
+        const { page } = this.state;
+        this.props.imagesActionData(page)
         this.setState({
             scrolling: false
         })
@@ -52,7 +52,7 @@ class Home extends Component {
         else {
             this.setState(prevState => ({
                 scrolling: true,
-                imgId: prevState.imgId + 1,
+                page: prevState.page + 1,
                 visible: prevState.visible + 10,
             }), this.loadImages)
         }
@@ -66,7 +66,8 @@ class Home extends Component {
                         {this.props.imageStateData.reImageData.slice(0, this.state.visible).map((img, index) => {
                             return (
                                 <div className="w-20 text-center" key={index} >
-                                    <img src={img.download_url} style={{width: "250px", height: "250px"}} className="rounded img-thumbnail img-fluid" alt="" />
+                                    <img src={img.download_url} style={{width: "100%" ,height: "250px"}} className="rounded img-thumbnail img-fluid" alt="" />
+                                    <div className="author">{img.author}</div>
                                 </div>
                             )
                         })}
@@ -86,7 +87,7 @@ const mapStateToProps = (state) => {
   
   const mapDispatchToProps = (dispatch) => {
     return {
-        imagesActionData: () => dispatch(actionCreator.ImagesAction()),
+        imagesActionData: (page) => dispatch(actionCreator.ImagesAction(page)),
     };
   };
   

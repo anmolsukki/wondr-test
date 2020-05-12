@@ -2,8 +2,8 @@ import axios from 'axios';
 import * as actionTypes from '../ActionTypes/ActonTypes';
 import { getHeaders } from '../Header/AuthHeader';
 
-export const ImagesAction = (id) => {
-  let url = `https://picsum.photos/v2/list?page=${id}`;
+export const ImagesAction = (page) => {
+  let url = `https://picsum.photos/v2/list?page=${page}`;
   return async (dispatch) => {
     dispatch(actionTypes.IMAGE_INIT());
     return axios

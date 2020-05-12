@@ -10,6 +10,13 @@
   padding: 10px;
 }
 
+.author {
+  border: 1px solid darkgray;
+  padding: 5px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
 @media (min-width: 576px) {
   .w-20 {
     -webkit-box-flex: 0;
