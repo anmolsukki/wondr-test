@@ -1,33 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreator from '../Redux/Actions/ActionTypes/index';
-import HomeMob from "./HomeMob";
 
 class Home extends Component {
     state = {
         page: 1,
-        scrolling: false,
-        visible: 30
+        visible: 20
     }
 
     componentDidMount = () => {
         this.loadImages();
-        this.updateWindowDimensions();
         window.addEventListener('scroll', this.handleScroll);
-        window.addEventListener('resize', this.updateWindowDimensions);
-    }
-
-    componentWillUnmount = () => {
-        window.removeEventListener('resize', this.updateWindowDimensions);
-    }
-      
-    updateWindowDimensions = () => {
-        this.setState({ width: window.innerWidth });
     }
 
     handleScroll = (e) => {
-        const { scrolling } = this.state;
-        if(scrolling) return
         const lastLI = document.querySelector(".w-20:last-child")
         const lastLiOffset = lastLI.offsetTop + lastLI.clientHeight;
         const pageOffset = window.pageYOffset + window.innerHeight;
@@ -38,22 +24,18 @@ class Home extends Component {
     loadImages = () => {
         const { page } = this.state;
         this.props.imagesActionData(page)
-        this.setState({
-            scrolling: false
-        })
     }
 
     loadMore = () => {
         if(this.props.imageStateData.reImageData.length > this.state.visible){
             this.setState(prevState => ({
-                visible: prevState.visible + 10,
+                visible: prevState.visible + 8,
             }))
         }
         else {
             this.setState(prevState => ({
-                scrolling: true,
                 page: prevState.page + 1,
-                visible: prevState.visible + 10,
+                visible: prevState.visible + 8,
             }), this.loadImages)
         }
     }
@@ -61,18 +43,18 @@ class Home extends Component {
     render() {
         return (
             <div>
-                {this.state.width >= 768 ?
-                    <div className="row clr-margin">
-                        {this.props.imageStateData.reImageData.slice(0, this.state.visible).map((img, index) => {
-                            return (
-                                <div className="w-20 text-center" key={index} >
+                <div className="row clr-margin">
+                    {this.props.imageStateData.reImageData.slice(0, this.state.visible).map((img, index) => {
+                        return (
+                            <div className="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 w-20" key={index}>
+                                <div className="text-center">
                                     <img src={img.download_url} style={{width: "100%" ,height: "250px"}} className="rounded img-thumbnail img-fluid" alt="" />
                                     <div className="author">{img.author}</div>
                                 </div>
-                            )
-                        })}
-                    </div> : <HomeMob />
-                }
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
         )
     }
